@@ -23,8 +23,14 @@
 
 ![214efbe57ac73921f468281e9e4900e8](https://github.com/user-attachments/assets/3555994c-a2e3-4b35-90bf-31c21934e1cb)
 
+将cpp中api注册到Lua虚拟机示意图
+![12b426f9921cc02a3380bb452f767989](https://github.com/user-attachments/assets/86b2496a-3bd8-48cd-945c-2c4e8f4964bb)
+
+
 内存分析工具
 ![image](https://github.com/user-attachments/assets/5f69c51c-60d4-41e1-9e09-da4ecec70ce8)
 
 ![d232467c19a20937d066d76a7ef7f965](https://github.com/user-attachments/assets/d40b5944-09d6-4250-ae50-b9b7ff334641)
+
+![image](https://github.com/user-attachments/assets/40d43b02-a5e9-48b6-8fd7-9f5a482c3f2d)
 
