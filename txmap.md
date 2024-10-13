@@ -80,7 +80,7 @@ int main() {
 直接在右侧文本框中修改变量的值（点击sure按钮提交）
 
 ![image](https://github.com/user-attachments/assets/6af30f43-9714-4a73-b19e-6992f8c8a4bf)
-
+### Lua虚拟机
 将cpp中api注册到Lua虚拟机示意图
 ![12b426f9921cc02a3380bb452f767989](https://github.com/user-attachments/assets/86b2496a-3bd8-48cd-945c-2c4e8f4964bb)
 
