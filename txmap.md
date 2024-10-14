@@ -1,7 +1,7 @@
 ## 项目展示
 ![dcc84efba921bdfdee58e8dd559ab233](https://github.com/user-attachments/assets/72c9c87e-03b5-445f-bbdf-fa113659f535)
 
-### 服务器的细节演示
+### Server
 ```c++
 //对外暴露的接口 用来增删要调试的变量
 #define HTTP_FLAGS(X) \
