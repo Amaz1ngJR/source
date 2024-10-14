@@ -84,7 +84,68 @@ int main() {
 将cpp中api注册到Lua虚拟机示意图
 ![12b426f9921cc02a3380bb452f767989](https://github.com/user-attachments/assets/86b2496a-3bd8-48cd-945c-2c4e8f4964bb)
 
+### 通过hook malloc函数族的方式集成tracy
+使用preload方法示意
+```c++
+#include <dlfcn.h>
+#include <stdio.h>
+#include <stdlib.h>
 
+void *(*original_malloc)(size_t) = NULL;
+
+// hook的malloc函数
+void *malloc(size_t size)
+{//printf会调用malloc 不要加printf
+    if (original_malloc == NULL)
+    {
+        original_malloc = (void *(*)(size_t))dlsym(RTLD_NEXT, "malloc");
+    }
+    return original_malloc(size);
+}
+```
+使用xhook
+```c++
+#include <stdio.h>
+#include <stdlib.h>
+#include "tracy/Tracy.hpp"
+#include "jni/xhook.h"
+#include <iostream>
+#include <unistd.h>
+
+void *my_malloc(size_t size)
+{ 
+    write(1, "my_malloc\n", 11);
+    auto ptr = malloc(size);//调用原始malloc
+    TracyAllocS(ptr, size, 20);//使用第三方tracy来进行内存分析
+    return ptr;
+}
+
+void my_free(void *ptr)
+{
+    write(1, "my_free\n", 9);
+    free(ptr);
+    TracyFreeS(ptr, 20);
+}
+
+void do_xhook()
+{
+    // 替换所有动态库下的malloc和free函数
+    int res1 = xhook_register(".*\\.so$", "malloc", (void *)my_malloc, NULL);
+    int res2 = xhook_register(".*\\.so$", "free", (void *)my_free, NULL);
+    // 忽略当前库mylib.so下的malloc和free函数
+    int res_ignore1 = xhook_ignore("mylib\\.so$", "malloc");
+    int res_ignore2 = xhook_ignore("mylib\\.so$", "free");
+}
+
+static struct SoMain
+{
+    SoMain()
+    {
+        do_xhook();//将除了当前库以外的所有动态库都hook上
+	write(1, "Hook\n", 5);
+    }
+} _soMain;
+```
 ### 内存分析效果
 ![image](https://github.com/user-attachments/assets/f58e87f1-a2c5-4d25-9d6f-5cd54f97955c)
 
