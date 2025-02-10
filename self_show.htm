@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <title>闫军儒 - 个人简历</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            margin: 40px;
+        }
+
+        h1,
+        h2,
+        h3 {
+            color: #333;
+        }
+
+        .section {
+            margin-bottom: 20px;
+        }
+
+        .section-header {
+            border-bottom: 1px solid #ccc;
+            padding-bottom: 5px;
+            margin-bottom: 10px;
+        }
+
+        ul {
+            list-style: disc;
+            margin-left: 20px;
+        }
+
+        .contact-info {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .contact-info span {
+            margin-bottom: 5px;
+        }
+
+        .project-details {
+            margin-left: 20px;
+        }
+
+        .project-details li {
+            margin-bottom: 10px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <h1>闫军儒</h1>
+    <p>应届毕业生 硕士 24岁 男</p>
+
+    <div class="contact-info">
+        <div class="text">
+            <span>Email: 1966962290@qq.com</a></span>
+            <span>电话: +86 15700123647</span>
+        </div>
+        <img src="https://raw.githubusercontent.com/Amaz1ngJR/source/main/batman.jpg" alt="个人图片"  class="contact-image"/>
+    </div>
+
+    <style>
+    .contact-info {
+        display: flex;
+        align-items: center; /* 垂直居中对齐 */
+    }
+
+    .text {
+        flex-grow: 1; /* 让文本区域尽可能占据剩余空间 */
+    }
+
+    .contact-image {
+        max-width: 256px; /* 最大宽度 */
+        max-height: 256px; /* 最大高度 */
+        margin-left: 10px; /* 为文字与图片之间增加一些间距 */
+    }
+    </style>
+
+
+
+    <div class="section">
+        <h2 class="section-header">教育经历</h2>
+        <ul>
+            <li>杭州电子科技大学 · 计算机技术 · 硕士 2022.9 - 2025.6</li>
+            <li>哈尔滨理工大学 · 工程力学 · 本科 2018.9 - 2022.6</li>
+        </ul>
+    </div>
+
+    <div class="section">
+        <h2 class="section-header">个人链接</h2>
+        <ul>
+            <li><a href="http://222.187.227.134:33632/show">个人在线简历</a></li>
+            <li><a href="https://github.com/Amaz1ngJR/Technology">个人技术学习主页</a></li>
+            <li><a href="https://github.com/Amaz1ngJR/Data-structures-and-algorithms">个人算法学习主页</a></li>
+            <li><a href="https://leetcode.cn/u/amaz1ng-b/">力扣个人主页</a></li>
+        </ul>
+    </div>
+
+    <div class="section">
+        <h2 class="section-header">个人技能</h2>
+        <ul>
+            <img src="https://raw.githubusercontent.com/Amaz1ngJR/source/main/tec.png" alt="个人技术"  class="contact-image2"/>
+        
+            <li>熟悉 C++：面向对象编程，如虚继承、虚函数，多态原理；泛型编程(STL)，如常用容器 deque、list、map、priority_queue、unordered_set 等；常见的新特性，如
+                lambda 表达式、智能指针、移动语义和完美转发等；</li>
+            <li>了解 Python、Qt、Lua 语言，Cmake、Make、Git 等开发工具；</li>
+            <li>了解 Linux 编程：进程通信、线程同步；多进程/多线程、多路 I/O 转接 (select、epoll) 服务器、reactor 模型、线程池；</li>
+        </ul>
+    </div>
+    <style>  
+        .contact-image2 {
+            max-width: 512px; /* 最大宽度 */
+            max-height: 512px; /* 最大高度 */
+            margin-left: 10px; /* 为文字与图片之间增加一些间距 */
+        }
+    </style>
+    <div class="section">
+        <h2 class="section-header">工作经历</h2>
+        <ul>
+            <li><strong>腾讯 CSIG 地图平台部/渲染产品中心/渲染技术组</strong> 实习生 2024.6.19 - 2024.9.5</li>
+            <ul class="project-details">
+                <li><strong>项目目的：</strong>
+                    <!-- <ol> -->
+                        <ul>
+                            <li>开发一个工具以实现在渲染引擎运行时调整引擎状态，减少因重新编译带来的时间成本；</li>
+                            <li>分析内存占用情况，提供特定场景下各元素的内存占有。</li>
+                        </ul>
+                    <!-- </ol> -->
+                </li>
+                <li><strong>项目内容：</strong>
+                    <ul>
+                        <li>利用 HttpServer 开源库构建服务器端，实现与客户端的高效通信。</li>
+                        <li>应用 C++ 模板元编程技术和 X 宏技巧，增强代码的灵活性和可维护性，简化调试变量管理。</li>
+                        <li>采用 LLVM 库解析 C++ 源码，自动生成绑定代码并将其注册至 Lua 虚拟机，实现动态逻辑调整。</li>
+                        <li>自建客户端，使用线程池技术实施异步处理机制，有效避免 UI 阻塞。</li>
+                        <li>开发内存分析模块，利用 Perfetto 跟踪文件评估不同场景下的内存消耗。</li>
+                        <li>探索并实现了 PRELOAD 技术与 xhook 库的应用，试图整合 Tracy 库用于内存占用分析。</li>
+                    </ul>
+                </li>
+                <li><a href="https://github.com/Amaz1ngJR/source/blob/main/txmap.md">项目展示</a></li>
+            </ul>
+        </ul>
+    </div>
+
+    <div class="section">
+        <h2 class="section-header">项目经历</h2>
+        <ul>
+            <li><strong>Webserver</strong> 2024.3 - 2024.3</li>
+            <ul class="project-details">
+                <li><strong>项目描述：</strong> 本项目是基于 Reactor+线程池的 C++
+                    服务器，用于处理多个客户端的并发连接和请求。实现了客户端连接的管理，包括超时断开连接和防止过多客户端连接等功能。</li>
+                <li><strong>主要技术：</strong>
+                    <ul>
+                        <li>使用 Reactor 模型 + 线程池进行客户端连接任务管理。</li>
+                        <li>使用 RAII 方法管理内存资源。</li>
+                        <li>应用了事件驱动的编程模型处理客户端连接、数据接收和数据发送等事件。</li>
+                        <li>使用互斥量和条件变量来实现线程同步和互斥。</li>
+                        <li>线程池方面使用完美转发和可变参数模板来传递任务和参数，提高效率。</li>
+                    </ul>
+                </li>
+            </ul>
+        </ul>
+        <ul>
+            <li><strong>基于深度学习的平面模型分区预测 (研究生期间科研项目)</strong> 2023.4 - 至今</li>
+            <ul class="project-details">
+                <li><strong>项目描述：</strong>
+                    本项目创新性地使用深度学习来预测平面模型的分区，分别使用基于Transformer的Swin-UNet和基于Diffusion Models的网络来学习模型的分区，来避免传统方法中复杂的标架场计算以及分区线简化。</li>
+                <li><strong>数据集生成流程：</strong>
+                    <ul>
+                        <li>使用 OpenCV、OpenGL 等库从图片或三维模型中生成一系列对称的三角网格并光顺边界去锯齿。</li>
+                        <li>对于输入的三角形网格使用 Ginzburg-Landau 模型平面标架场求解算法求解模型的标架场。</li>
+                        <li>将网格顶点沿标架的四个方向分成四个节点，沿着标架场延申构成分区线，将背景网格分成若干分区。</li>
+                        <li>在分区内套用模板法生成四边形网格。</li>
+                        <li>从四边形网格中提取 motorcycle graphs 视为模型分区的标准。</li>
+                    </ul>
+                </li>
+            </ul>
+        </ul>
+    </div>
+    <div class="section">
+        <h2 class="section-header">硕士研究生期间申请的专利</h2>
+        <ul>
+            <li><strong>***,***,***,***. 基于路径追踪的室内阴影去除数据集方法. 2024.(导师第一发明人，学生第二发明人)(已公开)</li>
+                <li><strong>***,***,***,***. 基于神经网络的阴影去除方法. 2024.(导师第一发明人，学生第三发明人)(已公开)</li>
+                </ul>
+            </div>
+</body>
+
+</html>
