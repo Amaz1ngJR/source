@@ -168,8 +168,6 @@ std::string DebugUtils::toString(ClangClassCursor cursor)
         case CXCursor_VarDecl:
             ss << "    static " << child.type().spelling() << " " << child.cursorSpelling() << ";\n";
             break;
-        case CXCursor_TypedefDecl:
-            break;
         case CXCursor_CXXMethod:
             ss << "    " << toString(ClangMethodCursor { child }) << ";\n";
             break;
@@ -181,8 +179,6 @@ std::string DebugUtils::toString(ClangClassCursor cursor)
             break;
         case CXCursor_ConversionFunction:
             ss << "    " << toString(ClangConversionCursor { child }) << ";\n";
-            break;
-        case CXCursor_TypeAliasDecl:
             break;
         default:
             break;
