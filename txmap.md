@@ -100,14 +100,14 @@ static sol::state g_lua;//创建一个全局的lua虚拟机
 
 static void registerApis(const HeaderParser& parser)
 {
-	auto m = g_vm["clang"].get_or_create<sol::table>();
+	auto m = g_lua["clang"].get_or_create<sol::table>();
 	m["clang_createIndex"] = clang_createIndex;
 	//m["clang_XXX"] = clang_XXX;
 	//......
 }
 void initLua(const HeaderParser& parser)
 {
-	g_vm.open_libraries(
+	g_lua.open_libraries(
 		sol::lib::base,
 		sol::lib::package,
 		sol::lib::string);
