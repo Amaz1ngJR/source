@@ -84,6 +84,14 @@ int main() {
 将cpp中api注册到Lua虚拟机示意图
 ![12b426f9921cc02a3380bb452f767989](https://github.com/user-attachments/assets/86b2496a-3bd8-48cd-945c-2c4e8f4964bb)
 
+使用sol2库将cpp代码注册到Lua虚拟机中
+
+![image](https://github.com/user-attachments/assets/85f141a3-8d5e-4637-9e11-52ca122b7889)
+
+使用Lua原生API仅仅注册一个构造函数所需的代码(整个胶水代码长100多行)
+
+![image](https://github.com/user-attachments/assets/92b912b7-286e-45df-9500-f824e5ef33fe)
+
 ### 通过hook malloc函数族的方式集成tracy
 使用preload方法示意
 ```c++
