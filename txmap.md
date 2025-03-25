@@ -30,23 +30,36 @@ public:
 };
 world w;//当前世界
 
-
-//通过X宏技巧结合模板 将待调试变量注册Http的API 
-template <typename pType>
-void func(pType HttpDebug::* pFlag) {
-	//通过Htpp发送请求 来修改给定世界下的结构体对象中的成员变量
-	auto& val = w.get().*pFlag;
-	cout << val << endl;
+template <typename FlagType>
+inline void handleSetFlag(FlagType HttpDebugFlags::*pFlag,
+		      const httplib::Request& req, httplib::Response& res) {
+	//......
+	if (cur_world) {
+	    auto& flag = cur_world->debug_flags_.get()->*pFlag;
+	    flag = std::move(v);
+	    cur_world->setNeedRedraw(true);
+	}
+	//......
 }
 
-#define REG_FLAG(type, var, val) \
-func<type>(&HttpDebug::var);
+//通过X宏技巧结合模板 将待调试变量注册Http的API 
+#define REGISTER_FLAG_API(pType, pFlag)                           \
+  do {                                                            \
+    const char* set_path = "/set/" #pFlag;                        \
+    svr_.Get(set_path, [](const Request& req, Response& res) {    \
+      handleSetFlag<pType>(&HttpDebugFlags::pFlag, req, res);     \
+    });                                                           \
+  } while (false)
+
+#define REG_FLAG(type, var, defaultVal) \
+  REGISTER_FLAG_API(type, var);
+            EXP_FLAG(REG_FLAG)
 
 int main() {
 	HttpDebug a;
 	cout << a.drawA << '\n';
 	HTTP_FLAGS(REG_FLAG)
-		return 0;
+	return 0;
 }
 
 ```
@@ -92,7 +105,7 @@ int main() {
 
 ![image](https://github.com/user-attachments/assets/92b912b7-286e-45df-9500-f824e5ef33fe)
 
-#### libclang解析c++代码
+#### [libclang](https://github.com/llvm/llvm-project/blob/main/clang/include/clang-c/Index.h)解析c++代码
 [clang接口](https://clang.llvm.org/doxygen/group__CINDEX__CPP.html)
 通过libclang逐个解析cpp头文件，
 ```c++
@@ -212,7 +225,7 @@ void initLua(const HeaderParser& parser)
 }
 ```
 
-### 通过hook malloc函数族的方式集成tracy
+### 通过hook malloc函数族的方式集成[tracy](https://github.com/wolfpld/tracy)
 使用preload方法示意
 ```c++
 #include <dlfcn.h>
@@ -231,7 +244,7 @@ void *malloc(size_t size)
     return original_malloc(size);
 }
 ```
-使用xhook
+使用[xhook](https://github.com/iqiyi/xHook)
 ```c++
 #include <stdio.h>
 #include <stdlib.h>
