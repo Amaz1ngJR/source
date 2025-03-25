@@ -93,7 +93,105 @@ int main() {
 ![image](https://github.com/user-attachments/assets/92b912b7-286e-45df-9500-f824e5ef33fe)
 
 #### libclang解析c++代码
-通过libclang逐个解析cpp头文件，将cpp代码注册到lua中（这部分通过将libclang注册到lua虚拟机中，用lua写胶水代码）
+通过libclang逐个解析cpp头文件，
+```c++
+//-----部分示例代码
+//-----------输出解析到的函数
+std::string DebugUtils::toString(ClangFunctionCursor cursor)
+{
+    std::stringstream ss;
+    if (cursor.isInlined()) {
+        ss << "inline ";
+    }
+    ss << cursor.returnTypeString() << " " << cursor.fullNameString() << "(";
+    int n = cursor.getNumArguments();
+    for (int i = 0; i < n; ++i) {
+        if (i > 0) {
+            ss << ", ";
+        }
+        auto arg = cursor.getArgument(i);
+        ss << arg.typeString() << " " << arg.cursorSpelling();
+    }
+    ss << ")";
+    return ss.str();
+}
+std::string DebugUtils::toString(ClangConversionCursor cursor)
+{
+    std::stringstream ss;
+    if (cursor.isVirtual()) {
+        ss << "virtual ";
+    }
+    ss << cursor.cursorSpelling() << "()";
+    if (cursor.isConst()) {
+        ss << " const";
+    }
+    if (cursor.isRVReference()) {
+        ss << " &&";
+    }
+    if (cursor.isPureVirtual()) {
+        ss << " = 0";
+    }
+    return ss.str();
+}
+//-----------输出解析到的类
+std::string DebugUtils::toString(ClangClassCursor cursor)
+{
+    std::stringstream ss;
+
+    auto baseClasses = cursor.getChildrenOfKind<ClangBaseClassSpecifierCursor>(CXCursor_CXXBaseSpecifier);
+
+    bool isStruct = cursor.kind() == CXCursor_StructDecl;
+    ss << (isStruct ? "struct " : "class ") << cursor.fullNameString();
+
+    bool isFirstBase = true;
+    for (auto base : baseClasses) {
+        if (isFirstBase) {
+            ss << " : ";
+            isFirstBase = false;
+        } else {
+            ss << ", ";
+        }
+        if (base.isVirtualBase()) {
+            ss << "virtual ";
+        }
+        ss << accessSpecifierToString(base.getAccessSpecifier()) << " " << base.fullNameString();
+    }
+    ss << " {\n"
+       << (isStruct ? "" : "public:\n");
+
+    cursor.visitClassPublicChildren([&ss](ClangCursor child) {
+        switch (child.kind()) {
+        case CXCursor_FieldDecl:
+            ss << "    " << child.type().spelling() << " " << child.cursorSpelling() << ";\n";
+            break;
+        case CXCursor_VarDecl:
+            ss << "    static " << child.type().spelling() << " " << child.cursorSpelling() << ";\n";
+            break;
+        case CXCursor_TypedefDecl:
+            break;
+        case CXCursor_CXXMethod:
+            ss << "    " << toString(ClangMethodCursor { child }) << ";\n";
+            break;
+        case CXCursor_Constructor:
+            ss << "    " << toString(ClangConstructorCursor { child }) << ";\n";
+            break;
+        case CXCursor_Destructor:
+            ss << "    " << child.cursorSpelling() << "();\n";
+            break;
+        case CXCursor_ConversionFunction:
+            ss << "    " << toString(ClangConversionCursor { child }) << ";\n";
+            break;
+        case CXCursor_TypeAliasDecl:
+            break;
+        default:
+            break;
+        }
+    });
+    ss << "}";
+    return ss.str();
+}
+```
+将cpp代码注册到lua中（这部分通过将libclang注册到lua虚拟机中，用lua写胶水代码）
 ```c++
 //示例
 static sol::state g_lua;//创建一个全局的lua虚拟机
@@ -114,6 +212,7 @@ void initLua(const HeaderParser& parser)
 	registerApis(parser);
 }
 ```
+
 ### 通过hook malloc函数族的方式集成tracy
 使用preload方法示意
 ```c++
