@@ -197,8 +197,10 @@ static void registerApis(const HeaderParser& parser)
 {
 	auto m = g_lua["clang"].get_or_create<sol::table>();
 	m["clang_createIndex"] = clang_createIndex;
+	m["clang_disposeIndex"] = clang_disposeIndex;
+	m["clang_createIndexWithOptions"] = clang_createIndexWithOptions;
 	//m["clang_XXX"] = clang_XXX;
-	//......
+	//......提取 clang-c/Index.h 中的所有函数声明
 }
 void initLua(const HeaderParser& parser)
 {
