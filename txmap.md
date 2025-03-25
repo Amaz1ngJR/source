@@ -92,6 +92,28 @@ int main() {
 
 ![image](https://github.com/user-attachments/assets/92b912b7-286e-45df-9500-f824e5ef33fe)
 
+#### libclang解析c++代码
+通过libclang逐个解析cpp头文件，将cpp代码注册到lua中（这部分通过将libclang注册到lua虚拟机中，用lua写胶水代码）
+```c++
+//示例
+static sol::state g_lua;//创建一个全局的lua虚拟机
+
+static void registerApis(const HeaderParser& parser)
+{
+    auto m = g_vm["clang"].get_or_create<sol::table>();
+    m["clang_createIndex"] = clang_createIndex;
+	//m["clang_XXX"] = clang_XXX;
+	//......
+}
+void initLua(const HeaderParser& parser)
+{
+    g_vm.open_libraries(
+        sol::lib::base,
+        sol::lib::package,
+        sol::lib::string);
+    registerApis(parser);
+}
+```
 ### 通过hook malloc函数族的方式集成tracy
 使用preload方法示意
 ```c++
