@@ -223,6 +223,30 @@ void initLua(const HeaderParser& parser)
 		sol::lib::string);
 	registerApis(parser);
 }
+
+void LuaCodeGenerator::generateNative(const HeaderParser& parser)
+{
+    auto& functions = parser.getFunctions();
+    auto& variables = parser.getVariables();
+    auto& constants = parser.getConstants();
+    auto& classes = parser.getClasses();
+    auto& macros = parser.getMacros();
+
+    std::stringstream ss;
+    for (auto& f : functions) {
+        ss << "m[\"" << f.cursorSpelling() << "\"] = " << f.cursorSpelling() << ";\n";
+    }
+
+    for (auto& c : classes) {
+        ss << "m.new_usertype<" << c.cursorSpelling() << ">(\"" << c.cursorSpelling() << "\", sol::constructors<()>";
+        for (auto& m : c.getMemberVariables()) {
+            ss << ",\n\t\"" << m.cursorSpelling() << "\", &" << c.cursorSpelling() << "::" << m.cursorSpelling();
+        }
+        ss << ");\n";
+    }
+
+    std::cout << ss.str() << std::endl;
+}
 ```
 
 ### 通过hook malloc函数族的方式集成[tracy](https://github.com/wolfpld/tracy)
