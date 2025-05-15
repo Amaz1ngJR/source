@@ -260,13 +260,42 @@ void *(*original_malloc)(size_t) = NULL;
 
 // hook的malloc函数
 void *malloc(size_t size)
-{//printf会调用malloc 不要加printf
+{//printf会调用malloc 不要加printf，可以使用puts
     if (original_malloc == NULL)
     {
         original_malloc = (void *(*)(size_t))dlsym(RTLD_NEXT, "malloc");
     }
     return original_malloc(size);
 }
+```
+动态链接器： 工作于程序运行阶段 工作时需要提供动态库所在目录位置
+```
+export LD_LIBRARY_PATH=/path/to/libmylib.so (临时奏效)
+```
+preload
+```
+export LD_PRELOAD=/path/to/libmylib.so
+```
+```
+g++ main.cpp -o demo -lmylib -L./lib    //-l/L后直接带参数 没有空格
+```
+在本地找到合适版本的libc++_shared.so
+```
+find /Users/amaz1ng/Library/Android/sdk/ndk/21.4.7075529/ | grep libc++_shared
+```
+将demo、libc++_shared.so和libmylib.so发送到虚拟机中
+```
+adb push /path/to/demo /data/local/tmp
+adb push /path/to/libmylib.so /data/local/tmp
+adb push /path/to/libc++_shared.so /data/local/tmp
+```
+在虚拟机下运行
+```
+adb shell
+cd /data/local/tmp
+export LD_LIBRARY_PATH=/data/local/tmp
+./demo
+exit
 ```
 使用[xhook](https://github.com/iqiyi/xHook)
 ```c++
