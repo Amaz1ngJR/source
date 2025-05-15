@@ -348,21 +348,18 @@ Tracy客户端默认监听 8086端口，若监听失败，会逐一尝试 +1 端
 ```
 adb forward tcp:8086 tcp:8086
 ```
+Tracy Profiler GUI编译
 ```
-//Tracy Profiler GUI编译
 cd ${tracy_root}/profiler/
 mkdir build
 cd build
 cmake ..
-# 看你具体情况用 make ninja nmake什么的
-# 也可以让cmake帮你做 (-j选项在较新的cmake版本才支持，旧版本可以不带 -j 8)
-# cmake --build . -j 8
 make -j 8
 
 # 完成后在当前目录会有一个 `tracy-profiler` 可执行文件 运行即可
 ./tracy-profiler
 ```
-
+Tracy Profiler做性能分析需要手动埋点,
 ### 内存分析效果
 ![image](https://github.com/user-attachments/assets/f58e87f1-a2c5-4d25-9d6f-5cd54f97955c)
 
