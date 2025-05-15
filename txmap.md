@@ -360,7 +360,8 @@ make -j 8
 ./tracy-profiler
 ```
 Tracy Profiler做性能分析需要手动埋点,
-### 内存分析效果
+### 借助perfetto的内存分析效果
+perfetto的使用参考 [性能分析工具 之 Perfetto基本使用](https://blog.csdn.net/qrx941017/article/details/128984365)
 ![image](https://github.com/user-attachments/assets/f58e87f1-a2c5-4d25-9d6f-5cd54f97955c)
 
 
